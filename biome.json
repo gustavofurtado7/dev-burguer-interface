@@ -20,6 +20,10 @@
       "complexity": {
         "noThisInStatic": "off",
         "useOptionalChain": "off"
+      },
+      "a11y": {
+        "noLabelWithoutControl": "off",
+        "useValidAnchor": "off"
       }
     }
   },
