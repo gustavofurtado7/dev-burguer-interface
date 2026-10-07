@@ -1,6 +1,6 @@
-import styled from "styled-components";
-import BackgroundLogin from "../../assets/background-login.svg";
-import Background from "../../assets/background.svg";
+import styled from 'styled-components';
+import BackgroundLogin from '../../assets/background-login.svg';
+import Background from '../../assets/background.svg';
 
 export const Container = styled.div`
   display: flex;
@@ -37,16 +37,15 @@ export const RightContainer = styled.div`
   background: url("${Background}");
   background-color: #1e1e1e;
 
-  p{
+  #register{
     color: #fff;
     font-size: 18px;
     font-weight: 800;
     text-align: center;
     width: 100%;
 
-    a{
+  a{
         text-decoration: underline;
-        cursor: pointer;
     }
   }
 `;
@@ -58,6 +57,7 @@ export const Title = styled.h2`
 
     span {
         color: #9758a6;
+        font-family: "Road Rage", sans-serif;
     }
 `;
 
@@ -89,7 +89,12 @@ export const InputContainer = styled.div`
         font-weight: 600;
         color: #fff;
     }
+
+    p {
+      font-size: 14px;
+      line-height: 80%;
+      color: #cf3057;
+      font-weight: 600;
+      height: 10px;
+    }
 `;
-
-export const Button = styled.button``;
-
