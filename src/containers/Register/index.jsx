@@ -4,7 +4,7 @@ import * as yup from 'yup';
 import { toast } from 'react-toastify';
 
 import Logo from '../../assets/logo.svg';
-import { Button } from '../../components/Button/index.jsx';
+import { Button } from '../../components/Button';
 import { api } from '../../services/api.js';
 import {
   Container,
@@ -15,10 +15,11 @@ import {
   Title,
 } from './styles.js';
 
-export function Login() {
+export function Register() {
 
   const schema = yup
     .object({
+      name: yuo.string().required('O nome é obrigatório'),
       email: yup
         .string()
         .email('Digite um email válido')
@@ -27,6 +28,10 @@ export function Login() {
         .string()
         .min(6, 'A senha deve ter pelo menos 6 caracteres')
         .required('Digite uma senha'),
+      confirmPassword: yup
+        .string()
+        .oneOf([yup.ref('password', 'As senhas devem ser iguais')])
+        .required('Confirme a sua senha'), 
     })
     .required();
 
@@ -39,14 +44,15 @@ export function Login() {
   });
   const onSubmit = async (data) => {
     const response = await toast.promise(
-      api.post('/sessions', {
+      api.post('/users', {
+        name: data.name,
         email: data.email,
         password: data.password,
       }),
       {
         pending: 'Verificando seus dados',
-        success: 'Login realizado com sucesso!',
-        error: 'Email ou senha inválidos',
+        success: 'Cadastro realizado com sucesso!',
+        error: 'Ops, algo de errado! Tente novamente.',
       }
     );
 
@@ -59,12 +65,19 @@ export function Login() {
         <img src={Logo} alt="Logo-devburguer" />
       </LeftContainer>
       <RightContainer>
-        <Title>
-          Olá, seja bem vindo ao <span>Dev Burguer!</span>
-          <br />
-          Acesse com seu <span>Login e senha</span>
-        </Title>
+        <Title>Criar conta</Title>
         <Form onSubmit={handleSubmit(onSubmit)}>
+
+          <InputContainer>
+            <label>Nome</label>
+            <input
+              type="text"
+              placeholder="Digite seu nome"
+              {...register('name')}
+            />
+            <p>{errors?.name?.message}</p>
+          </InputContainer>
+
           <InputContainer>
             <label>Email</label>
             <input
@@ -74,6 +87,7 @@ export function Login() {
             />
             <p>{errors?.email?.message}</p>
           </InputContainer>
+
           <InputContainer>
             <label>Senha</label>
             <input
@@ -84,9 +98,19 @@ export function Login() {
             <p>{errors?.password?.message}</p>
           </InputContainer>
 
-          <Button type="submit">Entrar</Button>
+          <InputContainer>
+            <label>Confirmar Senha</label>
+            <input
+              type="password"
+              placeholder="Digite sua senha"
+              {...register('confirmPassword')}
+            />
+            <p>{errors?.confirmPassword?.message}</p>
+          </InputContainer>
+
+          <Button type="submit">Criar Conta</Button>
           <p id="register">
-            Não possui conta? <a>Clique aqui</a>
+            Já possui conta? <a>Clique aqui</a>
           </p>
         </Form>
       </RightContainer>
