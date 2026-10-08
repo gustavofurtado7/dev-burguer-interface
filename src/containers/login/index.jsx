@@ -1,9 +1,11 @@
-import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
-import { api } from '../../services/api.js';
+import { toast } from 'react-toastify';
 
 import Logo from '../../assets/logo.svg';
+import { Button } from '../../components/Button';
+import { api } from '../../services/api.js';
 import {
   Container,
   Form,
@@ -13,9 +15,8 @@ import {
   Title,
 } from './styles.js';
 
-import { Button } from '../../components/Button';
-
 export function Login() {
+
   const schema = yup
     .object({
       email: yup
@@ -37,10 +38,19 @@ export function Login() {
     resolver: yupResolver(schema),
   });
   const onSubmit = async (data) => {
-    const response = await api.post('sessions', {
-      email: data.email,
-      password: data.password,
-    })
+    const response = await toast.promise(
+      api.post('/sessions', {
+        email: data.email,
+        password: data.password,
+      }),
+      {
+        pending: 'Verificando seus dados',
+        success: 'Login realizado com sucesso!',
+        error: 'Email ou senha inválidos',
+      }
+    );
+
+    console.log(response);
   };
 
   return (
@@ -73,6 +83,7 @@ export function Login() {
             />
             <p>{errors?.password?.message}</p>
           </InputContainer>
+
           <Button type="submit">Entrar</Button>
           <p id="register">
             Não possui conta? <a>Clique aqui</a>

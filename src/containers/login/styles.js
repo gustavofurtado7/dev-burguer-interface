@@ -1,6 +1,6 @@
 import styled from 'styled-components';
-import BackgroundLogin from '../../assets/background-login.svg';
 import Background from '../../assets/background.svg';
+import BackgroundLogin from '../../assets/background-login.svg';
 
 export const Container = styled.div`
   display: flex;
@@ -68,6 +68,13 @@ export const Form = styled.form`
     padding: 20px;
     width: 100%;
     max-width: 400px;
+`;
+
+export const RequestError = styled.p`
+  color: #cf3057;
+  font-size: 14px;
+  font-weight: 600;
+  margin: 0;
 `;
 
 export const InputContainer = styled.div`
