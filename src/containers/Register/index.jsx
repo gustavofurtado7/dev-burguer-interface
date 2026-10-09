@@ -1,7 +1,8 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
-import * as yup from 'yup';
 import { toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
+import * as yup from 'yup';
 
 import Logo from '../../assets/logo.svg';
 import { Button } from '../../components/Button';
@@ -9,6 +10,7 @@ import { api } from '../../services/api.js';
 import {
   Container,
   Form,
+  Link,
   InputContainer,
   LeftContainer,
   RightContainer,
@@ -16,10 +18,10 @@ import {
 } from './styles.js';
 
 export function Register() {
-
+  const navigate = useNavigate();
   const schema = yup
     .object({
-      name: yuo.string().required('O nome é obrigatório'),
+      name: yup.string().required('O nome é obrigatório'),
       email: yup
         .string()
         .email('Digite um email válido')
@@ -30,8 +32,8 @@ export function Register() {
         .required('Digite uma senha'),
       confirmPassword: yup
         .string()
-        .oneOf([yup.ref('password', 'As senhas devem ser iguais')])
-        .required('Confirme a sua senha'), 
+        .oneOf([yup.ref('password')], 'As senhas devem ser iguais')
+        .required('Confirme a sua senha'),
     })
     .required();
 
@@ -42,21 +44,34 @@ export function Register() {
   } = useForm({
     resolver: yupResolver(schema),
   });
-  const onSubmit = async (data) => {
-    const response = await toast.promise(
-      api.post('/users', {
-        name: data.name,
-        email: data.email,
-        password: data.password,
-      }),
-      {
-        pending: 'Verificando seus dados',
-        success: 'Cadastro realizado com sucesso!',
-        error: 'Ops, algo de errado! Tente novamente.',
-      }
-    );
 
-    console.log(response);
+  const onSubmit = async (data) => {
+    try {
+      const { status } = await api.post(
+        '/users',
+        {
+          name: data.name,
+          email: data.email,
+          password: data.password,
+        },
+        {
+          validateStatus: () => true,
+        },
+      );
+
+      if (status === 200 || status === 201) {
+        setTimeout(() => {
+          navigate('/login');
+        }, 2000);
+        toast.success('Conta criada com sucesso!');
+      } else if (status === 409) {
+        toast.error('Email já cadastrado');
+      } else {
+        throw new Error();
+      }
+    } catch {
+      toast.error('Falha ao criar conta. Tente Novamente');
+    }
   };
 
   return (
@@ -67,7 +82,6 @@ export function Register() {
       <RightContainer>
         <Title>Criar conta</Title>
         <Form onSubmit={handleSubmit(onSubmit)}>
-
           <InputContainer>
             <label>Nome</label>
             <input
@@ -110,7 +124,7 @@ export function Register() {
 
           <Button type="submit">Criar Conta</Button>
           <p id="register">
-            Já possui conta? <a>Clique aqui</a>
+            Já possui conta? <Link to="/login">Clique aqui</Link>
           </p>
         </Form>
       </RightContainer>

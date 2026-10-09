@@ -9,7 +9,7 @@ createRoot(document.getElementById('root')).render(
   <StrictMode>
     <RouterProvider router={routes} />
     <GlobalStyle />
-    <ToastContainer autoClose={5000} theme="dark"/>
+    <ToastContainer autoClose={2000} theme="dark"/>
 
   </StrictMode>,
 );
