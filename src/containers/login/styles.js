@@ -23,7 +23,7 @@ export const LeftContainer = styled.div`
   justify-content: center;
 
   img {
-    width: 80%;
+    width: 60%;
   }
 `;
 export const RightContainer = styled.div`

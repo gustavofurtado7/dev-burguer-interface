@@ -42,7 +42,7 @@ export function Login() {
     resolver: yupResolver(schema),
   });
   const onSubmit = async (data) => {
-    const response = await toast.promise(
+    const {data: {token}} = await toast.promise(
       api.post('/sessions', {
         email: data.email,
         password: data.password,
@@ -61,7 +61,7 @@ export function Login() {
       }
     );
 
-    console.log(response);
+    localStorage.setItem('token', token)
   };
 
   return (
