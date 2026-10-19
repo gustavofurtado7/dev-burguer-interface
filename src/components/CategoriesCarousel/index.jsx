@@ -1,9 +1,10 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import CarouselPackage from 'react-multi-carousel';
 import { api } from '../../services/api.js';
-import { useEffect } from 'react';
-import Carousel from 'react-multi-carousel';
 import 'react-multi-carousel/lib/styles.css';
 import { Container, ContainerItems, Title } from './styles.js';
+
+const Carousel = CarouselPackage.default;
 
 export function CategoriesCarousel() {
   const [categories, setCategories] = useState([]);
@@ -13,7 +14,6 @@ export function CategoriesCarousel() {
       const { data } = await api.get('/categories');
 
       setCategories(data);
-      console.log(data);
     }
 
     loadCategories();
@@ -45,7 +45,7 @@ export function CategoriesCarousel() {
       <Carousel
         responsive={responsive}
         infinite={true}
-        partialVisbile={false}
+        partialVisible={false}
         itemClass="carousel-item"
       >
         {categories.map((category) => (

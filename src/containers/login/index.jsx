@@ -49,19 +49,13 @@ export function Login() {
       }),
       {
         pending: 'Verificando seus dados',
-        success: {
-          render(){
-            setTimeout(() => {
-              navigate('/')
-            }, 2000);
-            return 'Login realizado com sucesso!';
-          },
-        },
+        success: 'Login realizado com sucesso!',
         error: 'Email ou senha inválidos',
       }
     );
 
-    localStorage.setItem('token', token)
+    localStorage.setItem('token', token);
+    navigate('/');
   };
 
   return (
