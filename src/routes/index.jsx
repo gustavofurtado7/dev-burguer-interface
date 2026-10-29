@@ -3,6 +3,7 @@ import { Login } from '../containers/Login';
 import { Register } from '../containers/Register';
 import { Home } from '../containers/Home';
 import { Menu } from '../containers/Menu';
+import { Header } from '../components/Header';
 
 function ProtectedRoute({ children }) {
   return localStorage.getItem('token') ? (
@@ -17,7 +18,10 @@ export const routes = createBrowserRouter([
     path: '/',
     element: (
       <ProtectedRoute>
-        <Home />
+        <>
+          <Header />
+          <Home />
+        </>
       </ProtectedRoute>
     ),
   },
