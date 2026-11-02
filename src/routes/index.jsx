@@ -4,6 +4,7 @@ import { Register } from '../containers/Register';
 import { Home } from '../containers/Home';
 import { Menu } from '../containers/Menu';
 import { Header } from '../components/Header';
+import { Cart } from '../containers/Cart';
 
 function ProtectedRoute({ children }) {
   return localStorage.getItem('token') ? (
@@ -36,5 +37,9 @@ export const routes = createBrowserRouter([
   {
     path: '/cardapio',
     element: <Menu />,
+  },
+  {
+    path: '/carrinho',
+    element: <Cart />,
   },
 ]);

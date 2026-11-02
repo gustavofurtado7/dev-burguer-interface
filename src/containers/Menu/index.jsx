@@ -9,6 +9,7 @@ import {
 } from './styles';
 import { formatPrice } from '../../utils/formatPrice';
 import { CardProducts } from '../../components/CardProducts';
+import { Button } from '../../components/Button';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 export function Menu() {
@@ -17,6 +18,10 @@ export function Menu() {
   const [filteredProducts, setFilteredProducts] = useState([]);
 
   const navigate = useNavigate();
+
+  const handleGoBack = () => {
+    navigate(-1);
+  };
 
   const { search } = useLocation();
 

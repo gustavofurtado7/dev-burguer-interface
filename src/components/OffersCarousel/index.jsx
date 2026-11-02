@@ -59,7 +59,7 @@ export function OffersCarousel() {
         itemClass="offer-item"
       >
         {offers.map((product) => (
-          <CardProduct key={product.id} product={product} />
+          <CardProducts key={product.id} product={product} />
         ))}
       </Carousel>
     </Container>
